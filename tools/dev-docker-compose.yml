@@ -1,0 +1,90 @@
+version: "3"
+
+services:
+  universal-app-base:
+    image: universal-app:latest
+    build:
+      context: ../
+      dockerfile: ./tools/docker/Dockerfile.base
+
+    labels:
+      universal-app.name: "universal-app base image"
+
+    volumes:
+      - ../:/usr/src/app/
+
+    command: "echo \"universal-app\""
+
+  universal-app-builder:
+    image: universal-app:latest
+    build:
+      context: ../
+      dockerfile: ./tools/docker/Dockerfile.app
+
+    labels:
+      universal-app.name: "universal-app frontend"
+
+    volumes:
+      - ../:/usr/src/app/
+
+    depends_on:
+      - universal-app-base
+
+    networks:
+      universal-app:
+        aliases:
+          - universal-app-builder.dev
+
+    command: "webpack serve --config webpack/config.ts --mode=production --host=0.0.0.0 --port=9000"
+
+  universal-app-server:
+    image: universal-app:latest
+    labels:
+      universal-app.name: "universal-app server"
+
+    ports:
+      - 8000:8000
+      - 9000:9000
+
+    depends_on:
+      - universal-app-builder
+
+    volumes:
+      - ../:/usr/src/app/
+
+    environment:
+      APP_HOST: "0.0.0.0"
+      APP_PORT: 9000
+      APP_ENABLE_HOT: 1
+
+    networks:
+      universal-app:
+        aliases:
+          - universal-app.dev
+
+    command: "nodemon dist/server/server.js -- --config=/usr/src/app/configs/dev.json"
+
+  # universal-app-storybook-server:
+  #   image: universal-app:latest
+  #   labels:
+  #     universal-app.front.name: "universal-app storybook"
+
+  #   depends_on:
+  #     - universal-app
+
+  #   volumes:
+  #     - ../:/usr/src/app/
+
+  #   ports:
+  #     - 6006:6006
+
+  #   networks:
+  #     universal-app:
+  #       aliases:
+  #         - universal-app-storybook.dev
+
+  #   command: "npm run storybook"
+
+
+networks:
+  universal-app:

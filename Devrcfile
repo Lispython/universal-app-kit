@@ -1,0 +1,32 @@
+variables:
+  SERVICE: universal-app
+  APPLICATION: universal-app
+  COMPOSE_FILES: -f ./tools/dev-docker-compose.yml
+
+
+run-cmd CMD="/bin/bash":
+  desc: "Run command in docker"
+  exec: |
+
+    docker-compose {{ COMPOSE_FILES }} run --service-ports --rm universal-app-server {{ CMD }}
+
+build-images:
+  desc: "Build docker images"
+  exec: |
+    docker-compose {{ COMPOSE_FILES }} build --force-rm --no-cache
+
+build-base-image:
+  desc: "Build base image"
+  exec: |
+    docker-compose {{ COMPOSE_FILES }} build --force-rm --no-cache universal-app-base
+
+
+dev-server:
+  desc: "Run dev server"
+  exec: |
+    docker-compose {{ COMPOSE_FILES }} up
+
+install-deps:
+  desc: "Install package dependencies"
+  exec: |
+    docker-compose {{ COMPOSE_FILES }} run --service-ports --rm universal-app-builder yarn install

@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "allowJs": true,
+    "target": "es6",
+    "module": "esnext",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "plugins": [{ "name": "typescript-plugin-css-modules" },
+                { "name": "typescript-styled-plugin" }],
+    "typeRoots": [
+      "./src/typings",
+      "./src/types",
+      "./node_modules/@types",
+      "./wasm_app_dist"
+    ],
+    "diagnostics": true,
+    "lib": [
+      "esnext",
+      "dom",
+      "es2015",
+      "es5"
+    ],
+    "paths": {
+      "@app/*": ["./src/*"],
+      "@core/*": ["./src/core/*"],
+      "package.json": ["./package.json"]
+    },
+    // "traceResolution": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true,
+  },
+  "include": [
+    "./src/**/*",
+    "./package.json",
+    "src/global.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".npm",
+    "build",
+    "jest",
+    "**/*.wasm"
+  ],
+}

@@ -1,0 +1,20 @@
+FROM node:14
+
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
+
+ENV PATH /usr/src/app/node_modules/.bin:/root/.cargo/bin:$PATH
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
+
+RUN cargo install wasm-pack
+
+RUN npm install npm webpack webpack-cli sass less yarn
+
+# ONBUILD COPY . /usr/src/app
+
+CMD ["node", "--version"]

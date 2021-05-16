@@ -1,0 +1,13 @@
+{
+  "hosts": ["http://127.0.0.1:8000"],
+  "static_prefix": "/assets/client/",
+  "static": {
+    "prefix": "/assets/client",
+    "dir": "../client",
+    "serve": true
+  },
+  "stats": {
+    "client": "../client/client_stats.json",
+    "server": "../server/server_stats.json"
+  }
+}

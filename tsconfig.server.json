@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "allowJs": true,
+    "target": "es5",
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "plugins": [{ "name": "typescript-plugin-css-modules" },
+                { "name": "typescript-styled-plugin" }],
+    "typeRoots": [
+      "./src/typings",
+      "./src/types",
+      "./node_modules/@types"
+    ],
+    "diagnostics": true,
+    "lib": [
+      "esnext",
+      "dom",
+      "es2015"
+    ],
+    "paths": {
+      "@app/*": ["./src/*"],
+      "@core/*": ["./src/core/*"],
+      "package.json": ["./package.json"]
+    },
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true,
+  },
+  "include": [
+    "./src/**/*",
+    "./package.json",
+    "src/global.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".npm",
+    "build",
+    "jest",
+    "**/*.wasm"
+  ],
+}

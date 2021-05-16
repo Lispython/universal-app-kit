@@ -1,0 +1,13 @@
+.node_modules/*
+node_modules/*
+
+
+#*#
+\#*\#
+.#*
+
+dist/*
+yarn-error.log
+wasm_app_dist/*
+
+wasm_app/target/*
