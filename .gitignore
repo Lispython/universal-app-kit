@@ -10,4 +10,4 @@ dist/*
 yarn-error.log
 wasm_app_dist/*
 
-wasm_app/target/*
+wasm-app/target/*

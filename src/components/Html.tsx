@@ -5,7 +5,6 @@ import { Helmet } from "react-helmet";
 
 import { BUILD_TS, APP_VERSION, BUILD_DT } from '@app/build_info';
 
-
 class Html extends React.Component<any, any> {
 
     get_asset_url(name: string) {
@@ -17,7 +16,6 @@ class Html extends React.Component<any, any> {
     get_assets(type: string) {
         return this.props.assets.filter((key: string) => key.endsWith(type))
     }
-
     get_assets_containers(type: string) {
         const assets = this.get_assets(type);
 
@@ -39,11 +37,13 @@ class Html extends React.Component<any, any> {
                     <style type="text/css" id="server-side-styles"></style>
                     {this.get_assets_containers('.css')}
                 </head>
-                <body></body>
-                <div id="app">wwww</div>
-                {this.props.children}
-                {this.get_assets_containers('.js')}
+                <body>
+                    <div id="app">
+                        {this.props.children}
+                    </div>
+                    {this.get_assets_containers('.js')}
 
+                </body>
             </html>
         );
     }

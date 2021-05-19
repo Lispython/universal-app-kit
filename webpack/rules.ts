@@ -1,5 +1,7 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
+const { inspect } = require('util');
+
 
 // just in case you run into any typescript error when configuring `devServer`
 import 'webpack-dev-server';
@@ -12,7 +14,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 export default (target: string, project_root: string, tsconfig: string) => {
-    return [
+    const rules = [
         {
             test: /\.(tsx|ts)$/,
             exclude: /(node_modules|bower_components)/,
@@ -111,14 +113,38 @@ export default (target: string, project_root: string, tsconfig: string) => {
             test: /\.css$/i,
 
             use: [
-                target == 'node' ? "isomorphic-style-loader" : "style-loader",
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: path.resolve(project_root, "./dist"),
+                        esModule: false,
+                    }
+
+                },
                 {
                     loader: 'css-loader',
                     options: {
-                        modules: true,
-                        importLoaders: 1
-
+                        modules: {
+                            // auto: true,
+                            auto: (resourcePath: string) => resourcePath.endsWith(".css"),
+                            localIdentName: "[hash:base64:7]",
+                            // exportOnlyLocals: true,
+                            // exportOnlyLocals: false,
+                            // namedExport: true,
+                        },
+                        importLoaders: 2
                     }
+                },
+                {
+                    loader: "sass-loader",
+                    options: {
+                        implementation: require("sass"),
+                        webpackImporter: true,
+                        sassOptions: {
+                            fiber: false,
+                            includePaths: [path.resolve(project_root, 'src/styles')]
+                        },
+                    },
                 },
                 {
                     "loader": "postcss-loader",
@@ -138,24 +164,31 @@ export default (target: string, project_root: string, tsconfig: string) => {
                         }
                     },
                 },
-                {
-                    loader: "sass-loader",
-                    options: {
-                        implementation: require("sass"),
-                        webpackImporter: true,
-                        sassOptions: {
-                            fiber: false,
-                            includePaths: [path.resolve(project_root, 'src/styles')]
-                        },
-                    },
-                },
+
             ]
         },
         {
             test: /\.less$/i,
             use: [
-                target == 'node' ? "isomorphic-style-loader" : "style-loader",
-                "css-loader",
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: path.resolve(project_root, "./dist")
+                    }
+
+                },
+                {
+                    loader: 'css-loader',
+                    options: {
+                        modules: {
+                            auto: true,
+                            // exportOnlyLocals: true,
+                            // exportOnlyLocals: false,
+                            // namedExport: true,
+                        },
+                        importLoaders: 2
+                    }
+                },
                 {
                     loader: "less-loader",
                     options: {
@@ -163,21 +196,6 @@ export default (target: string, project_root: string, tsconfig: string) => {
                         sourceMap: true,
                     },
                 },
-            ],
-        },
-        {
-            test: /\.s[ac]ss$/i,
-
-            use: [
-                target == 'node' ? "isomorphic-style-loader" : "style-loader",
-                MiniCssExtractPlugin.loader,
-                {
-                    loader: 'css-loader',
-                    options: {
-                        modules: true,
-                        importLoaders: 1
-                    }
-                },
                 {
                     "loader": "postcss-loader",
                     options: {
@@ -196,6 +214,31 @@ export default (target: string, project_root: string, tsconfig: string) => {
                         }
                     },
                 },
+
+            ],
+        },
+        {
+            test: /\.s[ac]ss$/i,
+            use: [
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: path.resolve(project_root, "./dist")
+                    }
+
+                },
+                {
+                    loader: 'css-loader',
+                    options: {
+                        modules: {
+                            auto: true,
+                            // exportOnlyLocals: true,
+                            // exportOnlyLocals: false,
+                            // namedExport: true,
+                        },
+                        importLoaders: 2
+                    }
+                },
                 {
                     loader: "sass-loader",
                     options: {
@@ -205,6 +248,24 @@ export default (target: string, project_root: string, tsconfig: string) => {
                             fiber: false,
                             includePaths: [path.resolve(project_root, 'src/styles')]
                         },
+                    },
+                },
+                {
+                    "loader": "postcss-loader",
+                    options: {
+                        postcssOptions: {
+                            plugins: [
+                                [
+                                    "postcss-preset-env",
+                                    {
+                                        // Options
+                                    },
+                                ],
+                                ["postcss-import", {}],
+                                ["autoprefixer", {}]
+
+                            ]
+                        }
                     },
                 },
 
@@ -217,4 +278,8 @@ export default (target: string, project_root: string, tsconfig: string) => {
             ]
         }
     ]
+
+    console.log(`Rule for target ${target}: ${inspect(rules, true, 4)}`);
+
+    return rules;
 };

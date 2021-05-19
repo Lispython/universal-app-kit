@@ -5,15 +5,15 @@
     "sourceMap": true,
     "allowJs": true,
     "target": "es5",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "module": "commonjs",
     "moduleResolution": "node",
-    "plugins": [{ "name": "typescript-plugin-css-modules" },
-                { "name": "typescript-styled-plugin" }],
+    // "plugins": [{ "name": "typescript-plugin-css-modules" },
+    //             { "name": "typescript-styled-plugin" }],
     "typeRoots": [
       "./src/typings",
       "./src/types",
-      "./node_modules/@types"
+      "./node_modules/@types",
     ],
     "diagnostics": true,
     "lib": [
@@ -32,6 +32,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": true,
+
+    // "isolatedModules": true,
+    // "noEmit": true
   },
   "include": [
     "./src/**/*",
