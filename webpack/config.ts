@@ -27,14 +27,13 @@ const CLIENT_STATS_NAME = 'client_stats.json';
 const SERVE_IP = '0.0.0.0'
 const SERVE_PORT = 9000;
 
-const stats = 'errors-warnings';
+// const stats = 'errors-warnings';
 
-// const stats = 'verbose';
+const stats = 'verbose';
 
 const resolve = {
     extensions: [
-        '.js', '.mjs', '.cjs', '.json', '.jsx', '.json', '.css',
-        '.jss', '.scss', '.less', '.tsx', '.ts', '.wasm'],
+        '.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json', '.css', '.jss', '.scss', '.less', '.wasm'],
     modules: ["node_modules",],
     roots: [
         path.resolve(PROJECT_ROOT, 'src'),
