@@ -6,7 +6,7 @@ import ReactDOMServer from 'react-dom/server';
 import { createMemoryHistory } from 'history';
 import StyleContext from 'isomorphic-style-loader/StyleContext'
 
-import router from "./router";
+import router, { makeUrl } from "./router";
 
 import Html from "./components/Html";
 
@@ -26,6 +26,9 @@ const app = express();
 app.disable('x-powered-by');
 
 
+const RouterContext = React.createContext(router);
+
+
 async function handler(req: Request, res: Response, _next: NextFunction) {
 
     console.log(`Handle request ${req.url}`)
@@ -33,7 +36,7 @@ async function handler(req: Request, res: Response, _next: NextFunction) {
 
     const history = createMemoryHistory({ initialEntries: [pathname] });
 
-    const component = await router.resolve({ pathname: req.url });
+    const component = await router.resolve({ pathname: req.url, makeUrl: makeUrl });
 
     // const css = new Set(); // CSS for all rendered React components
     // const insertCss = (...styles) => styles.forEach(style => css.add(style._getCss()));
@@ -41,7 +44,9 @@ async function handler(req: Request, res: Response, _next: NextFunction) {
     // console.log(component);
 
     // const markup = ReactDOMServer.renderToStaticMarkup(<Html assets={assets} config={config}>{component}</Html>)
-    const html = (<Html assets={assets} config={config}>{component}</Html>);
+    const html = (
+        <Html assets={assets} config={config}>{component}</Html>
+    );
 
     // const markup = ReactDOMServer.renderToString(html);
 

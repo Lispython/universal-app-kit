@@ -60,7 +60,13 @@ export default (target: string, project_root: string, tsconfig: string) => {
                     transpileOnly: false,
                     configFile: path.resolve(project_root, tsconfig),
                     logLevel: "debug",
-                    // onlyCompileBundledFiles: true
+                    compilerOptions: {
+                        skipLibCheck: true,
+                        skipDefaultLibCheck: true
+                    },
+                    reportFiles: ['src/**/*.{ts,tsx}']
+                    // onlyCompileBundledFiles: true,
+                    // allowTsInNodeModules: false
                 }
             }
             ]
@@ -279,7 +285,7 @@ export default (target: string, project_root: string, tsconfig: string) => {
         }
     ]
 
-    console.log(`Rule for target ${target}: ${inspect(rules, true, 4)}`);
+    // console.log(`Rule for target ${target}: ${inspect(rules, true, 4)}`);
 
     return rules;
 };

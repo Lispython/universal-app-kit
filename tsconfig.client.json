@@ -16,7 +16,6 @@
       "./node_modules/@types",
       "./wasm_app_dist"
     ],
-    "diagnostics": true,
     "lib": [
       "esnext",
       "dom",
@@ -28,17 +27,19 @@
       "@core/*": ["./src/core/*"],
       "package.json": ["./package.json"]
     },
-    // "traceResolution": true,
+    "diagnostics": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "traceResolution": false
   },
   "include": [
     "./src/**/*",
-    "./package.json",
     "src/global.d.ts"
   ],
   "exclude": [
@@ -46,6 +47,7 @@
     ".npm",
     "build",
     "jest",
-    "**/*.wasm"
-  ],
+    "**/*.wasm",
+    "**/node_modules"
+  ]
 }

@@ -3,7 +3,7 @@ import { BUILD_TS, APP_VERSION, BUILD_DT } from './build_info';
 import ReactDOM from 'react-dom';
 
 
-import router from "./router";
+import router, { makeUrl } from "./router";
 
 // import { createBrowserHistory } from 'history';
 
@@ -24,7 +24,7 @@ console.log(router);
 
 console.log(window.location);
 
-router.resolve({ pathname: window.location.pathname }).then((component: JSX.Element) => {
+router.resolve({ pathname: window.location.pathname, makeUrl }).then((component: JSX.Element) => {
     const MOUNT_NODE = window.document.getElementById('app');
     ReactDOM.hydrate(component, MOUNT_NODE);
 })

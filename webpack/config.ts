@@ -27,21 +27,24 @@ const CLIENT_STATS_NAME = 'client_stats.json';
 const SERVE_IP = '0.0.0.0'
 const SERVE_PORT = 9000;
 
-// const stats = 'errors-warnings';
+const stats = 'errors-warnings';
 
-const stats = 'verbose';
+// const stats = 'verbose';
 
 const resolve = {
     extensions: [
-        '.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json', '.css', '.jss', '.scss', '.less', '.wasm'],
+        '.jsx', '.js', '.tsx', '.ts', '.mjs', '.cjs', '.json', '.css', '.jss', '.scss', '.less', '.wasm'],
     modules: ["node_modules",],
     roots: [
         path.resolve(PROJECT_ROOT, 'src'),
         path.resolve(PROJECT_ROOT, 'server'),
         path.resolve(PROJECT_ROOT, 'src/styles')],
     alias: {
-        '@styles': path.resolve(PROJECT_ROOT, 'src/styles')
-    }
+        '@styles': path.resolve(PROJECT_ROOT, 'src/styles'),
+        '@app': path.resolve(PROJECT_ROOT, 'src'),
+        '@core': path.resolve(PROJECT_ROOT, 'src/core')
+    },
+    unsafeCache: false
 }
 
 
